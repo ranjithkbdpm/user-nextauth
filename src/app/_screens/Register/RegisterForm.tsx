@@ -16,8 +16,9 @@ import {
     FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import {register} from '@/actions/register'
 import { useState, useTransition } from 'react'
-import axios from 'axios'
+// import axios from 'axios'
 
 const RegisterForm = () => {
 
@@ -46,31 +47,59 @@ const RegisterForm = () => {
     //         triggerCustomError('confirmpassword')
     //     }
     // }  
-    
-    
+
+
     function onSubmit(values: z.infer<typeof registerSchema>) {
         console.log(values);
         if (values.confirmpassword === values.password) {
           try {
             startTransition(async () => {
               await new Promise((resolve) => setTimeout(resolve, 3000));
-              const response = await axios.post('http://localhost:3000/api/register',values)
-              const data = response.data
-              console.log(data)
-              setSuccessMsg(response?.data?.message)
+              const response = await register(values)
+              console.log(response)
+              if('message' in response){
+                setErrorMsg('');                
+                setSuccessMsg(response?.message)
+              }  else{
+                setSuccessMsg('')
+                setErrorMsg(response.error);
+              }        
             })
           } catch (error: Error | unknown) {
             if (error instanceof Error) {
               console.log(error?.message)
               setErrorMsg(error?.message)
-            } else {
-              console.log('Unknow error in login')
+            } else{
+                triggerCustomError('confirmpassword')
             }
           }
-        }else{
-            triggerCustomError('confirmpassword')
         }
       }
+    
+    
+    // function onSubmit(values: z.infer<typeof registerSchema>) {
+    //     console.log(values);
+    //     if (values.confirmpassword === values.password) {
+    //       try {
+    //         startTransition(async () => {
+    //           await new Promise((resolve) => setTimeout(resolve, 3000));
+    //           const response = await axios.post('http://localhost:3000/api/register',values)
+    //           const data = response.data
+    //           console.log(data)
+    //           setSuccessMsg(response?.data?.message)
+    //         })
+    //       } catch (error: Error | unknown) {
+    //         if (error instanceof Error) {
+    //           console.log(error?.message)
+    //           setErrorMsg(error?.message)
+    //         } else {
+    //           console.log('Unknow error in login')
+    //         }
+    //       }
+    //     }else{
+    //         triggerCustomError('confirmpassword')
+    //     }
+    //   }
 
     const triggerCustomError = async (type: string | undefined | null) => {
         // Manually set an error with a custom message
