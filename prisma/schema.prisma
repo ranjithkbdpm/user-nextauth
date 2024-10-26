@@ -33,40 +33,77 @@ enum Role {
 
 
 // register user model
-model User {
-  id                Int         @id @default(autoincrement()) 
-  firstname         String      @db.VarChar(255) 
-  lastname          String      @db.VarChar(255) 
-  email             String      @unique 
-  createdAt         DateTime?   @default(now()) 
-  phonenumber       String?     @db.VarChar(20)
-  password          String 
-  role              Role        @default(USER) 
-  isActive          Boolean?    @default(true) 
-  image             String?
-  accounts          Account[]
-  profile           Profile[] 
-}
+  model User {
+    id                String       @id @default(uuid())
+    firstname         String?      @db.VarChar(255) 
+    lastname          String?      @db.VarChar(255) 
+    email             String       @unique 
+    emailVerified     DateTime?
+    createdAt         DateTime?    @default(now()) 
+    phonenumber       String?      @db.VarChar(20)
+    password          String 
+    role              Role         @default(USER) 
+    isActive          Boolean?     @default(true) 
+    image             String?
+    accounts          Account[]
+    session           Session[]
+    profile           Profile[] 
+  }
 
-// profile
-model Profile {
-  id            Int       @id @default(autoincrement())
-  address       String
-  profileId     Int       @unique
-  user          User      @relation(fields: [profileId], references: [id])
-}
+  // profile
+  model Profile {
+    id            String    @id @default(uuid())
+    address       String
+    profileId     String    @unique
+    user          User      @relation(fields: [profileId], references: [id])
+  }
 
-//account
+  // //account
+  // model Account {
+  // id                  Int       @id @default(autoincrement())
+  // userId              Int    
+  // type                String
+  // provider            String
+  // providerAccountId   String
+  // refreshToken        String?   @db.Text
+  // // Relation to User
+  // user                User      @relation(fields: [userId], references: [id])
+  // }
+
 model Account {
- id                  Int       @id @default(autoincrement())
- userId              Int    
- type                String
- provider            String
- providerAccountId   String
- refreshToken        String?   @db.Text
- // Relation to User
- user                User      @relation(fields: [userId], references: [id])
+  id                 String   @id @default(uuid())
+  userId             String
+  provider           String
+  providerAccountId  String
+  type               String
+  refresh_token      String?  @db.Text
+  access_token       String?  @db.Text
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String?  @db.Text
+  session_state      String?
+  user               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@unique([provider, providerAccountId])
 }
 
-  
+  // session
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// email verification model
+model VerificationToken {
+  identifier String
+  token      String    @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+    
  

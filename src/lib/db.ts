@@ -4,7 +4,7 @@ import { PrismaClient } from '@prisma/client';
 // Approch1
 // Declaration to prevent TypeScript errors when referencing `prisma` on the global object.
 declare global {
-    var prisma: PrismaClient | undefined;
+     var prisma: PrismaClient | undefined;
 }
 
  // Use the existing `prisma` instance if it exists in the global scope, 
@@ -20,8 +20,8 @@ if (process.env.NODE_ENV !== 'production') {
 export default db;
 
 
-console.log(globalThis); // Accesses the global object in the current environment
-console.log(global); // Accesses the global object in Node.js
+// console.log(globalThis); // Accesses the global object in the current environment
+// console.log(global); // Accesses the global object in Node.js
 
 
 

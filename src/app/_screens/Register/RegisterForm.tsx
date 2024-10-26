@@ -16,7 +16,7 @@ import {
     FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import {register} from '@/actions/register'
+import {register} from '@/actions/users/register'
 import { useState, useTransition } from 'react'
 // import axios from 'axios'
 
