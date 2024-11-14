@@ -1,9 +1,7 @@
 "use client"
 import React from 'react'
-import {Button} from '@/components/ui/button'
 import Link from 'next/link'
-import {FcGoogle} from 'react-icons/fc'
-import { FaGithub } from 'react-icons/fa'
+import SocialAuthButton from './SocialAuthButton'
 
 interface CardAuthWrapperProps {
     children: React.ReactNode,
@@ -11,7 +9,6 @@ interface CardAuthWrapperProps {
     href:string,
     message?:string,
     showSocial?:boolean
-
 } 
 
 const CardAuthWrapper = (
@@ -31,12 +28,7 @@ const CardAuthWrapper = (
         </div>
         <div className="mt-3">{children}</div>
         <div className={`${showSocial ?'flex':'hidden'} w-full mt-3`}>
-            <Button className='w-full' variant='outline'>
-                <FcGoogle/>
-            </Button>
-            <Button className='w-full' variant='outline'>
-                <FaGithub/>
-            </Button>
+            <SocialAuthButton/>
         </div>
         <div className='mt-3'>
             <Link href={href}>

@@ -36,13 +36,14 @@ enum Role {
   model User {
     id                String       @id @default(uuid())
     firstname         String?      @db.VarChar(255) 
-    lastname          String?      @db.VarChar(255) 
+    lastname          String?      @db.VarChar(255)
+    name              String? 
     email             String       @unique 
     emailVerified     DateTime?
     createdAt         DateTime?    @default(now()) 
     phonenumber       String?      @db.VarChar(20)
-    password          String 
-    role              Role         @default(USER) 
+    password          String?      //make this optional since we are using OAuth
+    role              Role?         @default(USER) 
     isActive          Boolean?     @default(true) 
     image             String?
     accounts          Account[]

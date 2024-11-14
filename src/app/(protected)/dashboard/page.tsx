@@ -1,36 +1,60 @@
-import React from 'react'
-import {auth, signOut} from '../../../../auth'
+
+import {auth, signOut} from '../../../../auth';
+import ProfileCard from '@/components/client_component/ProfileCard';
+import { Button } from "@/components/ui/button"
 
 const dashboard = async () => {
 
-    const session = await auth()
+    const session = await auth();
+
+    const user = {
+      name: session?.user?.name,
+      email: session?.user?.email,
+      role: session?.user?.role,
+      profileImage : session?.user?.image
+    }
+   const cardStyle = {
+    width:"300px",
+    height:"400px"
+   }
+
+   const imgStyle = {
+    width:100,
+    height:100
+   }
+    
     // console.log('session',session)
 
   return (
-    <>
+    <div className="h-[100vh] flex justify-center items-center">
         {session 
-           ?<div>
-              <p>Dashboard</p>
-              <p>{JSON.stringify(session)}</p>
-              <form action={async()=>{
-                  "use server"
-                  await signOut();
-                }}>
-                <button type='submit' >sign out</button>
-              </form>
-              
+           ?<div className="text-center">
+              <div>
+                <ProfileCard name = {user.name} email = {user.email}  profileImage = {user.profileImage}  role = {user.role} cardStyle={cardStyle} imgStyle = {imgStyle}>
+                  <form action={async()=>{
+                    "use server"                                   
+                      await signOut({
+                          redirect: true,
+                          redirectTo: '/login',
+                          // callbackUrl: '/login',
+                      });                  
+                    }}>
+                    <Button type='submit'>sign out</Button>
+                  </form>
+                </ProfileCard>
+              </div>
+              {/* <p>{JSON.stringify(session)}</p>              */}
             </div> 
            :<h1>You are not authorised to view this page</h1>
         }
-
-        {/* <div>Dashboard</div> */}
-    </>
-    
+    </div> 
   )
 }
 
 export default dashboard
 
+
+{/* //useful for tasks that require server-side execution, such as clearing server-side sessions or performing sensitive operations without exposing them to the client. */}
 
 
 // The difference in behavior between the two versions of the dashboard component comes down to the way the sign-out action is triggered:

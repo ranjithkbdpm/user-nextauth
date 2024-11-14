@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button"
 import FormError from '@/components/client_component/FormError'
 import FormSuccess from '@/components/client_component/FormSuccess'
 import { useState, useTransition } from 'react'
+import { useRouter } from 'next/navigation';
 import {
   Form,
   FormControl,
@@ -34,32 +35,58 @@ const LoginForm = () => {
       password: ""
     },
   })
+  const router = useRouter();
 
+
+  // function onSubmit(values: z.infer<typeof loginSchema>) {
+  //  setErrorMsg('')
+  //  setSuccessMsg('')
+  //   console.log(values);
+  //   if (values) {
+  //     try {
+  //       startTransition(async () => {
+  //         await new Promise((resolve) => setTimeout(resolve, 3000));
+  //         const response = await login(values)
+  //         console.log(response)
+  //         if('message' in response){
+  //           setSuccessMsg(response?.message)
+  //         }  else{
+  //           setErrorMsg(response.error);
+  //         }        
+  //       })
+  //     } catch (error: Error | unknown) {
+  //       if (error instanceof Error) {
+  //         console.log(error?.message)
+  //         setErrorMsg(error?.message)
+  //       } else {
+  //         console.log('Unknow error in login')
+  //       }
+  //     }
+  //   }
+  // }
 
   function onSubmit(values: z.infer<typeof loginSchema>) {
+    setErrorMsg('')
+    setSuccessMsg('')
     console.log(values);
-    if (values) {
-      try {
+    if (values) {    
         startTransition(async () => {
           await new Promise((resolve) => setTimeout(resolve, 3000));
-          const response = await login(values)
-          console.log(response)
-          if('message' in response){
-            setSuccessMsg(response?.message)
-          }  else{
-            setErrorMsg(response.error);
-          }        
-        })
-      } catch (error: Error | unknown) {
-        if (error instanceof Error) {
-          console.log(error?.message)
-          setErrorMsg(error?.message)
-        } else {
-          console.log('Unknow error in login')
-        }
-      }
-    }
-  }
+          login(values).then((data)=>{
+            console.log('data', data);
+            if('message' in data){
+                setSuccessMsg(data?.message);
+                router.push('/dashboard');
+            }  else {
+                setErrorMsg(data?.error);
+            }
+
+            // setErrorMsg(data?.error)
+            // setSuccessMsg(data?.message)
+          })
+                
+    })
+  }}
 
 
 
