@@ -99,11 +99,10 @@ model Session {
 
 // email verification model
 model VerificationToken {
-  identifier String
-  token      String    @unique
+  id         String     @id @default(cuid())
+  email      String     @unique
+  token      String     @unique
   expires    DateTime
-
-  @@unique([identifier, token])
 }
 
     

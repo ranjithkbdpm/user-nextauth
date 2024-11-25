@@ -28,8 +28,8 @@ const dashboard = async () => {
   return (
     <div className="h-[100vh] flex justify-center items-center">
         {session 
-           ?<div className="text-center">
-              <div>
+           ?<div className=" flex justify-center p-5">
+              <div className="mr-5">
                 <ProfileCard name = {user.name} email = {user.email}  profileImage = {user.profileImage}  role = {user.role} cardStyle={cardStyle} imgStyle = {imgStyle}>
                   <form action={async()=>{
                     "use server"                                   
@@ -43,7 +43,7 @@ const dashboard = async () => {
                   </form>
                 </ProfileCard>
               </div>
-              {/* <p>{JSON.stringify(session)}</p>              */}
+              <p>{JSON.stringify(session)}</p>             
             </div> 
            :<h1>You are not authorised to view this page</h1>
         }

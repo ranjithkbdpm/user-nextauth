@@ -10,5 +10,12 @@ export interface UserProps {
     phonenumber: string | null;
     password: string | null;
     role: string | null;
-  }
+}
+
+export interface VerificationToken {
+  id: string;    
+  email : string ;   
+  token : string;
+  expires : Date;
+}
 

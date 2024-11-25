@@ -16,15 +16,17 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
   session: { strategy: "jwt" },
   adapter: PrismaAdapter(db),
   callbacks: {
-    async signIn({user}) {
+    async signIn({user, account}) {
       if(user){
         console.log('user from sign in ' ,  user)
       }
-      // let existingUser = null;
-      // if(user.id){
-      //   existingUser = await getUserById(user.id)
-      // }      
-      // if(!existingUser || !existingUser.emailVerified) return false;
+      // Allow OAuth authentication without verification of email
+      if(account?.provider !== "credentials") return true;
+      //  Prevent sign in without email verified
+      if(user.id) {
+        const existingUser = await getUserById(user.id);
+        if(!existingUser || !existingUser.emailVerified) return false;
+      }            
       return true
     },
     async session({ session, user, token }) {
@@ -57,6 +59,14 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       token.role = existingUser.role;
       return token
     },
+  },
+  events:{
+    // async linkAccount({user}) {
+    //   await db.user.update({
+    //     where:{id:user.id},
+    //     data:{ emailVerified: new Date()}
+    //   })
+    // }
   }
 
 });

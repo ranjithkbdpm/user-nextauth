@@ -1,6 +1,8 @@
 // public routes that need no authentication
 export const publicRoutes = [
     "/",
+    "/publicdash",
+    "/email-verification",
 ];
 
 // authentication routes
@@ -13,5 +15,5 @@ export const authRoutes = [
 export const apiAuthPrefix = "/api/auth";
 
 // default path after login
-export const DEFAULT_LOGIN_REDIRECT = "/dashboard"
+export const DEFAULT_LOGIN_REDIRECT = "/dashboard";
 

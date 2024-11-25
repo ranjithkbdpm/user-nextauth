@@ -1,8 +1,11 @@
 'use server'
-import z from 'zod'
-import { loginSchema } from '../../../schema/formSchemas'
-import { signIn } from '../../../auth'
-import { AuthError } from 'next-auth'
+import z from 'zod';
+import { loginSchema } from '../../../schema/formSchemas';
+import { signIn } from '../../../auth';
+import { AuthError } from 'next-auth';
+import { generateVerificationToken } from '../verificationToken/generateVerificationToken';
+import { getUserByEmail } from './getUserBy';
+import { sendVerificationEmail } from '@/lib/email';
 
 export const login = async (values: z.infer<typeof loginSchema>): Promise<{ message: string; email?: string; success?: boolean } | { error: string; success?: boolean }> => {
     // Validate incoming values
@@ -13,6 +16,22 @@ export const login = async (values: z.infer<typeof loginSchema>): Promise<{ mess
 
     const { email, password } = validation.data;
 
+    const existingUser = await  getUserByEmail(email);
+
+    if(!existingUser || !existingUser.email || !existingUser.password){
+        return { error: 'Invalid credentials', success: false };
+    }
+
+    // if the email is not verified send verification link to email
+    if(!existingUser.emailVerified){
+        const verificationToken = await generateVerificationToken(existingUser.email);
+        const data = await sendVerificationEmail(verificationToken?.email, verificationToken?.token);
+        console.log('login verifiction sent as mail',  verificationToken)
+        return { message: 'Confirmation sent to email', success: true };
+        console.log(data);
+    }
+   
+    // if the email is verified proceed with login
     try {
         // Attempt sign-in without automatic redirection
         const result = await signIn("credentials", {
