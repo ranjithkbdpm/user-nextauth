@@ -32,7 +32,12 @@ const CardAuthWrapper = (
         </div>
         <div className='mt-3'>
             <Link href={href}>
-                {href=='login' ?'Already Have an Account!' :'Create Account'}
+                {href === 'login' 
+                 ? 'Already Have an Account!' 
+                 : href === 'emailVerification'
+                   ?'Proceed to login'
+                   :'Create Account'
+                }
             </Link>          
         </div>
         <div>

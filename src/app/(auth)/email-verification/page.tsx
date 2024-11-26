@@ -5,7 +5,8 @@ import { useEffect, useState} from 'react';
 import CardAuthWrapper from '@/components/client_component/CardAuthWrapper';
 import FormError from '@/components/client_component/FormError'
 import FormSuccess from '@/components/client_component/FormSuccess'
-import { emailVerification } from '@/actions/verificationToken/emailVerication';
+import { emailVerification } from '@/actions/verificationToken/emailVerification';
+import {PuffLoader} from 'react-spinners'
 
 const EmailVerification = () => {
     const [errorMsg, setErrorMsg] = useState('');
@@ -19,6 +20,7 @@ const EmailVerification = () => {
                 setErrorMsg('');
                 setSuccessMsg('');
                 if(token){
+                    console.log('tokenid in string', token)
                     const verificationToken = await getVerificationTokenByToken(token);
                     console.log('verification Token got from link token', verificationToken)
                     if(!verificationToken){
@@ -27,7 +29,7 @@ const EmailVerification = () => {
                     }
                     const isEmailVerified = await emailVerification(verificationToken);
                     if(!isEmailVerified){
-                        setErrorMsg('Token does not exist');
+                        setErrorMsg('Email verifiaction failed - front');
                         return
                         // throw new Error ('Error verifying the email')
                     }
@@ -55,7 +57,16 @@ const EmailVerification = () => {
     
   return (
     <div>
-        <CardAuthWrapper Headlabel='Email verification' href='login' message=''>
+        <CardAuthWrapper Headlabel='Email verification' href='emailVerification' message=''>
+            {!successMsg && !errorMsg && (
+                <div className='text-right  flex justify-center'>
+                    {/* <CircleLoader
+                        color="#17d97e"
+                        speedMultiplier={1}
+                    /> */}
+                    <PuffLoader color="#25b053" />
+                </div>                
+            )}
             <FormError message={errorMsg} />
             <FormSuccess message={successMsg} />
         </CardAuthWrapper>        

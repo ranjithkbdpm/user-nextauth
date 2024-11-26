@@ -53,7 +53,7 @@ export const register = async (
     //   return { message: "Verification Email sent", success: true };
     // }
 
-    console.log("verification to send", verificationToken);
+    // console.log("verificationToken sent to email", verificationToken);
     // return { success: true, message: "User created successfully", user };
     return { success: true, message: "Verification token sent to email" };
     console.log(user);
