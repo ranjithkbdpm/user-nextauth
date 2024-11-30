@@ -1,3 +1,4 @@
+'use server'
 import {v4 as uuidv4} from 'uuid'
 import { getVerificationTokenByEmail } from './getVerificationTokenBy';
 import db from '@/lib/db'
@@ -16,7 +17,7 @@ export const generateVerificationToken = async(email:string) => {
         })
     };
    
-    const verificationToken = db.verificationToken.create({
+    const verificationToken = await db.verificationToken.create({
         data:{
             email,
             token,

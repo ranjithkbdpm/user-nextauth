@@ -67,7 +67,7 @@ const EmailVerification = () => {
                     <PuffLoader color="#25b053" />
                 </div>                
             )}
-            <FormError message={errorMsg} />
+            <FormError message={errorMsg}/>
             <FormSuccess message={successMsg} />
         </CardAuthWrapper>        
     </div>

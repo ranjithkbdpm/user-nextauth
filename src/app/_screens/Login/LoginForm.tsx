@@ -80,7 +80,6 @@ const LoginForm = () => {
             }  else {
                 setErrorMsg(data?.error);
             }
-
             // setErrorMsg(data?.error)
             // setSuccessMsg(data?.message)
           })
@@ -91,7 +90,7 @@ const LoginForm = () => {
 
 
   return (
-    <Form {...form}>
+      <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <FormField
           control={form.control}
@@ -121,9 +120,12 @@ const LoginForm = () => {
         />
         <FormError message={errorMsg} />
         <FormSuccess message={successMsg} />
-        <Button type="submit" className='w-full' disabled={isPending}>Submit</Button>
+        <Button type="submit" className='w-full mb-0' disabled={isPending}>Submit</Button>
+        <Button variant='link' style={{marginTop:'0'}} onClick={()=>{router.push('/reset-password')}}>
+          forget password?
+        </Button>
       </form>
-    </Form>
+    </Form> 
   )
 }
 

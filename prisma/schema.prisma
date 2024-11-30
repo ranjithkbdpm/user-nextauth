@@ -105,5 +105,12 @@ model VerificationToken {
   expires    DateTime
 }
 
+// reset password  model
+model resetPasswordToken {
+  id         String     @id @default(cuid())
+  email      String     @unique
+  token      String     @unique
+  expires    DateTime
+}
     
  

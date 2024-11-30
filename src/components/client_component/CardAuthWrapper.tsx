@@ -30,10 +30,10 @@ const CardAuthWrapper = (
         <div className={`${showSocial ?'flex':'hidden'} w-full mt-3`}>
             <SocialAuthButton/>
         </div>
-        <div className='mt-3'>
+        <div className='mt-3 text-xs'>
             <Link href={href}>
                 {href === 'login' 
-                 ? 'Already Have an Account!' 
+                 ? 'Already Have an Account?' 
                  : href === 'emailVerification'
                    ?'Proceed to login'
                    :'Create Account'

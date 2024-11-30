@@ -24,3 +24,17 @@ export const sendVerificationEmail = async (email: string, token: string) =>{
     //   }      
 
 }   
+
+export const sendresetPasswordEmail = async (email: string, token: string) =>{
+
+  const confirmationLink = `http://localhost:3000/new-password?token=${token}`;
+
+  return await resend.emails.send({
+      from: 'Acme <onboarding@resend.dev>',
+      to: [email],
+      subject: 'Hello world',
+      // react: EmailTemplate({ firstName: 'John' }),
+      html: `<p> Click <a href=${confirmationLink}">here</a> to create new password ${confirmationLink} </p>`
+    });    
+
+} 

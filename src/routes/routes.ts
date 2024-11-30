@@ -9,6 +9,8 @@ export const publicRoutes = [
 export const authRoutes = [
     "/login",
     "/register",
+    "/reset-password",
+    "/new-password"
 ];
 
 // routes that starts with prefix are need to authenticated 
