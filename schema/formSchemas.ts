@@ -8,7 +8,8 @@ export const loginSchema = z.object({
         .email({
             message: 'Email is required'
         }),
-    password: z.string()
+    password: z.string(),
+    tcode: z.optional(z.string()),
 })
 
 // export const registerSchema = z.object({

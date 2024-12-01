@@ -10,7 +10,7 @@ export const sendVerificationEmail = async (email: string, token: string) =>{
     return await resend.emails.send({
         from: 'Acme <onboarding@resend.dev>',
         to: [email],
-        subject: 'Hello world',
+        subject: 'User management email confirmation',
         // react: EmailTemplate({ firstName: 'John' }),
         html: `<p> Click <a href=${confirmationLink}">here</a> to confirm the email ${confirmationLink} </p>`
       });
@@ -32,9 +32,21 @@ export const sendresetPasswordEmail = async (email: string, token: string) =>{
   return await resend.emails.send({
       from: 'Acme <onboarding@resend.dev>',
       to: [email],
-      subject: 'Hello world',
+      subject: 'User management password reset',
       // react: EmailTemplate({ firstName: 'John' }),
-      html: `<p> Click <a href=${confirmationLink}">here</a> to create new password ${confirmationLink} </p>`
+      html: `<p> Click < href=${confirmationLink}">here</a> to create new password ${confirmationLink} </p>`
+    });    
+
+} 
+
+export const sendTwoFactorEmail = async (email: string, token: string) =>{
+
+  return await resend.emails.send({
+      from: 'Acme <onboarding@resend.dev>',
+      to: [email],
+      subject: 'User management 2fcode',
+      // react: EmailTemplate({ firstName: 'John' }),
+      html: `<p> Your 2FAuth code ${token}</p>`
     });    
 
 } 

@@ -4,7 +4,7 @@ import z from 'zod';
 import { newPasswordSchema } from '../../../schema/formSchemas';
 import db from '@/lib/db';
 import { getUserByEmail } from '../users/getUserBy';
-import { getResetPasswordTokenByToken } from './getResetPasswordToken';
+import { getResetPasswordTokenByToken } from './getResetPasswordTokenBy';
 import bcrypt from "bcrypt";
 
 export const newPassword = async (
@@ -48,14 +48,14 @@ export const newPassword = async (
         return { message: 'Failed to update password. Please try again', success: false };
     }
 
-    const tokenExists = await db.ResetPasswordToken.findUnique({
+    const tokenExists = await db.resetPasswordToken.findUnique({
         where: { id: resetPasswordToken.id },
     });
 
     if (!tokenExists) {
         console.log('Verification token already deleted or not found.');
     } else {
-        await db.ResetPasswordToken.delete({
+        await db.resetPasswordToken.delete({
             where: { id: tokenExists.id },
         });
         console.log('Verification token deleted successfully.');

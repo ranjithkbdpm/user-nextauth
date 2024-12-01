@@ -1,7 +1,7 @@
 'use server'
 import db from '@/lib/db'
 import {v4 as uuidv4} from 'uuid' 
-import { getResetPasswordTokenByEmail } from './getResetPasswordToken';
+import { getResetPasswordTokenByEmail } from './getResetPasswordTokenBy';
 
 export const generateResetPasswordToken = async(email: string) =>{
     const token = uuidv4();
@@ -17,7 +17,7 @@ export const generateResetPasswordToken = async(email: string) =>{
         })
     }
 
-    const resetPasswordToken = db.resetPasswordToken.create({
+    const resetPasswordToken = await db.resetPasswordToken.create({
         data:{
             email,
             token,
